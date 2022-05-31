@@ -1,6 +1,7 @@
 import { Field, ObjectType } from "@nestjs/graphql";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import Game from "./game.entity";
+import Player from "./player.entity";
 
 @ObjectType()
 @Entity()
@@ -9,19 +10,19 @@ export default class Match {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Field()
-    @Column({
+    @Field(type => Player)
+    @ManyToOne(() => Player)
+    @JoinColumn({
         name: 'player1_id',
-        nullable: false
     })
-    player1Id: string;
+    player1: Player;
 
-    @Field()
-    @Column({
+    @Field(type => Player)
+    @ManyToOne(() => Player)
+    @JoinColumn({
         name: 'player2_id',
-        nullable: false
     })
-    player2Id: string;
+    player2: Player;
 
     @Field()
     @Column({
@@ -29,6 +30,7 @@ export default class Match {
     })
     winner: string;
 
+    @Field(type => [Game])
     @OneToMany(() => Game, (game) => game.match, {cascade: true})
     games: Game[]
 }

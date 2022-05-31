@@ -14,4 +14,10 @@ export default class Player {
         nullable: false
     })
     username: string;
+
+    @Field()
+    @Column({
+        nullable: false
+    })
+    points: number;
 }

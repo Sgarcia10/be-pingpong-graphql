@@ -2,20 +2,31 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Match {
-  id: String!
-  player1Id: String!
-  player2Id: String!
-  winner: String!
-}
-
 type Player {
   id: String!
   username: String!
+  points: Float!
+}
+
+type Match {
+  id: String!
+  player1: Player!
+  player2: Player!
+  winner: String!
+  games: [Game!]!
+}
+
+type Game {
+  id: String!
+  match: Match!
+  player1Points: Float!
+  player2Points: Float!
+  gameNumber: Float!
 }
 
 type Query {
-  players: [Match!]!
+  players: [Player!]!
+  matches: [Match!]!
 }
 
 type Mutation {

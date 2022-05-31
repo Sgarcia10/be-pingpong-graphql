@@ -12,7 +12,7 @@ export class MatchResolver {
     ) {}
 
     @Query(() => [Match])
-    async players() {
+    async matches() {
         return this.matchService.getAll()
     }
 

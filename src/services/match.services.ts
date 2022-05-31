@@ -11,7 +11,8 @@ import { Repository } from 'typeorm';
 export class MatchService {
 
     constructor(
-        @Inject('MATCH_REPOSITORY') private matchRepository: Repository<Match>
+        @Inject('MATCH_REPOSITORY') private matchRepository: Repository<Match>,
+        @Inject('PLAYER_REPOSITORY') private palyerRepository: Repository<Player>,
         ) {}
 
     async create(match: CreateMatchInput): Promise<Match> {
@@ -23,8 +24,8 @@ export class MatchService {
             return newGame
         })
         const newMatch = new Match()
-        newMatch.player1Id = match.player1Id
-        newMatch.player2Id = match.player2Id
+        newMatch.player1 = await this.palyerRepository.findOneBy({id: match.player1Id})
+        newMatch.player2 = await this.palyerRepository.findOneBy({id: match.player2Id})
         newMatch.winner = 'PLAYER1'
         newMatch.games = games
 
@@ -32,6 +33,12 @@ export class MatchService {
     }
 
     async getAll(): Promise<Match[]> {
-        return this.matchRepository.find();
+        return this.matchRepository.find({
+            relations: {
+                games: true,
+                player2: true,
+                player1: true
+            },
+        });
     }
 }
