@@ -1,5 +1,5 @@
 import { Field, ObjectType } from "@nestjs/graphql";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import Match from "./match.entity";
 
 @ObjectType()
@@ -11,6 +11,7 @@ export default class Game {
 
     @Field()
     @ManyToOne(() => Match, (match) => match.games)
+    @JoinColumn({name: 'match_id'})
     match: Match;
 
     @Field()

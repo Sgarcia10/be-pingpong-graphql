@@ -4,7 +4,9 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { databaseProviders } from './config/database.provider';
 import Player from './models/player.entity';
+import { MatchResolver } from './resolvers/match.resolver';
 import { PlayerResolver } from './resolvers/player.resolver';
+import { MatchService } from './services/match.services';
 import { PlayerService } from './services/player.services';
 
 @Module({
@@ -17,7 +19,9 @@ import { PlayerService } from './services/player.services';
   providers: [
     ...databaseProviders,
     PlayerService,
-    PlayerResolver
+    PlayerResolver,
+    MatchResolver,
+    MatchService
   ],
   exports: [
     PlayerService

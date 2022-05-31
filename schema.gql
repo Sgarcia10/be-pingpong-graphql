@@ -15,9 +15,16 @@ type Player {
 }
 
 type Query {
-  players: [Player!]!
+  players: [Match!]!
 }
 
 type Mutation {
   createPlayer(username: String!): Player!
+  createMatch(matchData: CreateMatchInput!): Match!
+}
+
+input CreateMatchInput {
+  player1Id: String!
+  player2Id: String!
+  games: [[Int!]!]!
 }
