@@ -48,12 +48,21 @@ export class MatchService {
             } else {
                 gamesWonCounter[1] = gamesWonCounter[1]+1
             }
-        }
-        if(Math.abs(gamesWonCounter[0]-gamesWonCounter[1])!==3) {
-            throw new  UserInputError(`one player must have won exactly 3 games`)
+            if(Math.abs(gamesWonCounter[0]-gamesWonCounter[1]) >=3 ) {
+                throw new UserInputError(`last game unnecessary`)
+            }
         }
         if (gamesWonCounter[0] === gamesWonCounter[1]) {
             throw new  UserInputError(`can not tie the match`)
+        }
+        if(games.length > 5) {
+            throw new  UserInputError(`can not exceed 5 games`)
+        }
+        if(games.length < 3 ||  
+            (games.length === 3 && Math.abs(gamesWonCounter[0]-gamesWonCounter[1]) !== 3) ||
+            (games.length === 4 && Math.abs(gamesWonCounter[0]-gamesWonCounter[1]) !== 2) ||
+            (games.length === 5 && Math.abs(gamesWonCounter[0]-gamesWonCounter[1]) !== 1)) {
+            throw new  UserInputError(`not enough games to win`)
         }
         
         if (gamesWonCounter[0] > gamesWonCounter[1]) {
