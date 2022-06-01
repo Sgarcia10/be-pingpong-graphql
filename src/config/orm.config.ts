@@ -14,7 +14,7 @@ const OrmConfig: DataSourceOptions = {
   port: parseInt(process.env.db_postgres_db_port) || 5432,
   username: process.env.db_postgres_db_user || 'postgres',
   password: process.env.db_postgres_db_password || 'postgres',
-  database: process.env.db_postgres_db_name || 'postgres',
+  database: process.env.db_postgres_db_name || 'pingpong',
   entities: [Player, Match, Game],
   synchronize: false,
   migrationsRun: true,
