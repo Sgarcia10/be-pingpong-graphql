@@ -48,9 +48,6 @@ export class MatchService {
             } else {
                 gamesWonCounter[1] = gamesWonCounter[1]+1
             }
-            if(Math.abs(gamesWonCounter[0]-gamesWonCounter[1]) >=3 ) {
-                throw new UserInputError(`last game unnecessary`)
-            }
         }
         if (gamesWonCounter[0] === gamesWonCounter[1]) {
             throw new  UserInputError(`can not tie the match`)
@@ -62,7 +59,7 @@ export class MatchService {
             (games.length === 3 && Math.abs(gamesWonCounter[0]-gamesWonCounter[1]) !== 3) ||
             (games.length === 4 && Math.abs(gamesWonCounter[0]-gamesWonCounter[1]) !== 2) ||
             (games.length === 5 && Math.abs(gamesWonCounter[0]-gamesWonCounter[1]) !== 1)) {
-            throw new  UserInputError(`not enough games to win`)
+            throw new  UserInputError(`invalid number of games to win`)
         }
         
         if (gamesWonCounter[0] > gamesWonCounter[1]) {
