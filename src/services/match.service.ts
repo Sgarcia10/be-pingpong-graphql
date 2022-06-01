@@ -3,6 +3,7 @@ import { UserInputError } from 'apollo-server-express';
 import { CreateMatchInput } from 'src/dtos/createMatch.dto';
 import Game from 'src/models/game.entity';
 import Match from 'src/models/match.entity';
+import Player from 'src/models/player.entity';
 import { Repository } from 'typeorm';
 import { PlayerService } from './player.service';
 
@@ -28,14 +29,14 @@ export class MatchService {
         const newMatch = new Match()
         newMatch.player1 = await this.playerService.findById(match.player1Id)
         newMatch.player2 = await this.playerService.findById(match.player2Id)
-        newMatch.winner = this.validateGames(games)
-
-        console.log({winner: this.validateGames(games)});
         
-
+        newMatch.winner = this.validateGames(games)
         newMatch.games = games
+        
+        const savedMatch = await this.matchRepository.save(newMatch)
+        await this.addWinnerPoints(newMatch.player1, newMatch.player2, newMatch.winner)
 
-        return this.matchRepository.save(newMatch);
+        return savedMatch;
     }
 
     validateGames(games: Game[]): string {
@@ -54,7 +55,6 @@ export class MatchService {
         if (gamesWonCounter[0] === gamesWonCounter[1]) {
             throw new  UserInputError(`can not tie the match`)
         }
-        console.log({gamesWonCounter});
         
         if (gamesWonCounter[0] > gamesWonCounter[1]) {
             return this.PLAYER1_WINNER
@@ -78,6 +78,16 @@ export class MatchService {
         }
         if(game.player1Points === game.player2Points) {
             throw new  UserInputError(`one player must win in game ${game.gameNumber}`)
+        }
+    }
+
+    async addWinnerPoints(player1: Player, player2: Player, winner: string): Promise<void> {
+        if(winner === this.PLAYER1_WINNER) {
+            const points = player1.points + 1
+            await this.playerService.updatePoints(player1, points)
+        } else {
+            const points = player2.points + 1
+            await this.playerService.updatePoints(player2, points)
         }
     }
 

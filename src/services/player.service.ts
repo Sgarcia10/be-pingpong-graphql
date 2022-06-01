@@ -13,11 +13,18 @@ export class PlayerService {
 
     async create({username = ''}): Promise<Player> {
         const usernameTrimmed = username.trim();
+        if(!usernameTrimmed) {
+            throw new UserInputError('username invalid');
+        }
         const player = await this.playerRepository.findOneBy({ username: usernameTrimmed })
         if(!!player) {
             throw new UserInputError('username already exists');
         }
         return this.playerRepository.save({username: usernameTrimmed});
+    }
+
+    async updatePoints(player: Player, points: number) {
+        return this.playerRepository.update({id: player.id}, {points})
     }
 
     async getAll(): Promise<Player[]> {

@@ -1,5 +1,5 @@
 import { Field, ObjectType } from "@nestjs/graphql";
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import Game from "./game.entity";
 import Player from "./player.entity";
 
@@ -33,4 +33,19 @@ export default class Match {
     @Field(type => [Game])
     @OneToMany(() => Game, (game) => game.match, {cascade: true})
     games: Game[]
+
+    @CreateDateColumn({ 
+        name: 'created_at',
+        type: "timestamp", 
+        default: () => "CURRENT_TIMESTAMP(6)" 
+    })
+    createdAt: Date;
+
+    @UpdateDateColumn({ 
+        name: 'updated_at',
+        type: "timestamp", 
+        default: () => "CURRENT_TIMESTAMP(6)", 
+        onUpdate: "CURRENT_TIMESTAMP(6)" 
+    })
+    updatedAt: Date;
 }
