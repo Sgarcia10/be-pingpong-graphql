@@ -4,8 +4,8 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { databaseProviders } from './config/database.provider';
 import { MatchResolver } from './resolvers/match.resolver';
 import { PlayerResolver } from './resolvers/player.resolver';
-import { MatchService } from './services/match.services';
-import { PlayerService } from './services/player.services';
+import { MatchService } from './services/match.service';
+import { PlayerService } from './services/player.service';
 
 @Module({
   imports: [

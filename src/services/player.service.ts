@@ -12,14 +12,19 @@ export class PlayerService {
         ) {}
 
     async create({username = ''}): Promise<Player> {
-        const player = await this.playerRepository.findOneBy({ username })
+        const usernameTrimmed = username.trim();
+        const player = await this.playerRepository.findOneBy({ username: usernameTrimmed })
         if(!!player) {
             throw new UserInputError('username already exists');
         }
-        return this.playerRepository.save({username});
+        return this.playerRepository.save({username: usernameTrimmed});
     }
 
     async getAll(): Promise<Player[]> {
         return this.playerRepository.find();
+    }
+
+    async findById(id: string): Promise<Player> {
+        return this.playerRepository.findOneBy({id})
     }
 }

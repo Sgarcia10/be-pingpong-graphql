@@ -18,14 +18,8 @@ const options = {
 };
 
 export const validateJwt = (token: string): Promise<boolean> => {
-    console.log({token});
-    
     return new Promise((resolve, reject) => {
         jwt.verify(token, getKey, options, (err, decoded) => {
-            console.log({decoded});
-            console.log({err});
-            
-            
             if(err || !decoded) {
                 resolve(false)
             }

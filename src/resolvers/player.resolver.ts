@@ -2,7 +2,7 @@ import { UseGuards } from "@nestjs/common";
 import { Args, Mutation, Query, Resolver, } from "@nestjs/graphql";
 import { AuthGuard } from "src/guards/auth.guard";
 import Player from "src/models/player.entity";
-import { PlayerService } from "src/services/player.services";
+import { PlayerService } from "src/services/player.service";
 
 @Resolver(of => Player)
 @UseGuards(AuthGuard)
