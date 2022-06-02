@@ -80,7 +80,7 @@ export class MatchService {
             throw new  UserInputError(`points difference must be at least 2 points in game ${game.gameNumber}`)
         }
         if(Math.abs(game.player1Points-game.player2Points)>2 && (game.player2Points>11 || game.player1Points>11)) {
-            throw new  UserInputError(`points difference must 2 points in game ${game.gameNumber}`)
+            throw new  UserInputError(`points difference must be 2 points in game ${game.gameNumber}`)
         }
         if(game.player1Points === game.player2Points) {
             throw new  UserInputError(`one player must win in game ${game.gameNumber}`)
